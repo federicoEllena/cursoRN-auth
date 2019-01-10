@@ -1,14 +1,23 @@
 import React, { Component } from 'react';
-import { Button, Card, CardSection, Input } from './Common';
+import { Button, Card, CardSection, Input, Spinner } from './Common';
 
 export default class LoginForm extends Component {
-	state = { email: '', password: '' };
+	state = { email: '', password: '', loading: false };
 
-	handleOnPress = () => {};
+	handleOnPress = () => {
+		this.setState({ loading: true });
+	};
 
 	handleEmail = email => this.setState({ email });
 
 	handlePassword = password => this.setState({ password });
+
+	renderButton() {
+		if (this.state.loading) {
+			return <Spinner size="small" />;
+		} 
+		return (<Button whenPressed={this.handleOnPress}>Log in</Button>);
+	}
 
 	render() {
 		return (
@@ -31,9 +40,7 @@ export default class LoginForm extends Component {
 						onChangeText={this.handlePassword} 
 					/>
 				</CardSection>
-				<CardSection>
-					<Button whenPressed={this.handleOnPress}>Log in</Button>
-				</CardSection>
+				<CardSection>{this.renderButton()}</CardSection>
 			</Card>
 		);
 	}
